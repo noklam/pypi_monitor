@@ -1,12 +1,11 @@
-import streamlit as st
-import pandas as pd
-import requests
-from xmljson import BadgerFish
-
-import pandas as pd
-import requests
-import attrs
+from collections import OrderedDict
 from xml.etree.ElementTree import fromstring
+
+import attrs
+import pandas as pd
+import requests
+import streamlit as st
+from xmljson import BadgerFish
 
 
 def convert_datetime(x):
@@ -44,7 +43,7 @@ def extract_releases(rss, project):
 
 
 @st.cache
-def main():
+def main(pip_compile_file):
     projects = extract_package_from_pip_compile(pip_compile_file)
     all_releases = []
     for project in projects:
@@ -78,11 +77,12 @@ def extract_package_from_pip_compile(pip_compile_str):
 
 def create_master_df(all_releases: list):
     df = pd.DataFrame([attrs.asdict(release) for release in all_releases])
+    print(df)
     return df.sort_values("pub_date", ascending=False)
 
 
 ####### UI #######
 st.title("Pypi Monitor")
-st.text_input("Pip-compile file")
-df = main()
+pip_compile_str = st.text_area("Pip-compile file")
+df = main(pip_compile_str)
 st.write(df)

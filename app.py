@@ -393,8 +393,24 @@ zipp==3.17.0
 
 st.image("demo-light.png")
 st.title("PyPi Monitor - Tracking the latest release of your libraries")
+
 pip_compile_str = st.text_area("Pip freeze file (default with [Kedro](https://github.com/kedro-org/kedro)'s dependencies)", DEFAULT)
 df = main(pip_compile_str)
+
+@st.cache_data
+def convert_df(df):
+   return df.to_csv(index=False).encode('utf-8')
+
+
+csv = convert_df(df)
+
+st.download_button(
+   "Press to Download",
+   csv,
+   "dependencies.csv",
+   "text/csv",
+   key='download-csv'
+)
 print("***************")
 print(type(df), df)
 st.write(df)

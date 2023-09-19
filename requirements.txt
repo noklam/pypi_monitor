@@ -1,2 +1,3 @@
 streamlit
 xmljson
+pandas<2.0

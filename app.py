@@ -391,8 +391,9 @@ zict==3.0.0
 zipp==3.17.0
 """
 
+st.image("demo-light.png")
 st.title("PyPi Monitor - Tracking the latest release of your libraries")
-pip_compile_str = st.text_area("Pip freeze file (default with Kedro dependency)", DEFAULT)
+pip_compile_str = st.text_area("Pip freeze file (default with [Kedro](https://github.com/kedro-org/kedro)'s dependencies)", DEFAULT)
 df = main(pip_compile_str)
 print("***************")
 print(type(df), df)
